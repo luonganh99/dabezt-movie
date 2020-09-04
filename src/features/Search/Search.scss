@@ -1,0 +1,19 @@
+.movie-search {
+    margin: 20px;
+
+    &__title {
+        font-size: 26px;
+        font-weight: bold;
+
+        span {
+            color: rgb(236, 236, 43);
+        }
+    }
+
+    &__list {
+        margin: 20px 0;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+    }
+}

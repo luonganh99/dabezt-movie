@@ -1,0 +1,15 @@
+.movie-filter {
+    margin: 20px;
+
+    &__title {
+        font-size: 26px;
+        font-weight: bold;
+    }
+
+    &__list {
+        margin: 20px 0;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+    }
+}

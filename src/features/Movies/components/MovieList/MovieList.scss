@@ -1,0 +1,14 @@
+.movie-list {
+    margin: 20px;
+
+    &__title {
+        font-size: 26px;
+        font-weight: bold;
+    }
+
+    &__list {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+    }
+}
