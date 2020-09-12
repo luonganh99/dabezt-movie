@@ -1,0 +1,14 @@
+.watched-list {
+    margin: 20px;
+
+    &__title {
+        font-size: 26px;
+        font-weight: bold;
+    }
+
+    &__list {
+        margin-top: 5px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+}

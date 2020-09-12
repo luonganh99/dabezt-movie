@@ -1,0 +1,103 @@
+.wishlist-card {
+    width: 250px;
+    margin-bottom: 20px;
+    &__main {
+        position: relative;
+        overflow: hidden;
+
+        & > img {
+            width: 100%;
+            vertical-align: middle;
+            transition: all 0.5s;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &:hover > img {
+            transform: scale(1.2);
+        }
+    }
+
+    &__overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-flow: wrap column;
+        justify-content: space-around;
+        padding: 0 10px;
+
+        background: rgba(0, 0, 0, 0.781);
+        opacity: 0;
+        transition: all 0.5s;
+
+        .wrapper {
+            display: flex;
+            flex-flow: wrap column;
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &--title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        &--vote {
+            margin-top: 5px;
+            margin-right: auto;
+            min-width: 37px;
+            border: 1.2px solid rgb(192, 221, 233);
+            border-radius: 100%;
+
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 2rem;
+
+            color: rgb(161, 231, 29);
+        }
+
+        &--icon {
+            flex: 1;
+            display: flex;
+            .icon {
+                margin: auto;
+            }
+        }
+
+        &--overview {
+            font-size: 0.9rem;
+            line-height: 1.4rem;
+            max-height: 4.2rem;
+
+            margin-top: 60px;
+
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+        }
+
+        &--genres {
+            display: flex;
+            flex-flow: wrap row;
+            list-style: none;
+
+            font-size: 1.1rem;
+            margin-bottom: 0;
+
+            li {
+                margin-right: 7px;
+            }
+        }
+    }
+}

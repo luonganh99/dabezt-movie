@@ -20,6 +20,7 @@ function MovieFilter(props) {
             const newTotalPages = res.total_pages;
             setMovieList(newMovieList);
             setTotalPages(newTotalPages);
+            window.scrollTo(0, 0);
         };
 
         fetchMovies();

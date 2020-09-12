@@ -9,10 +9,13 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moviesApi from 'api/tmdbApi/moviesApi';
 import MovieCard from 'features/Movies/components/MovieCard';
+import formatDate from 'helpers/formatDate';
+import formatNumber from 'helpers/formatNumber';
+import { useAuth } from 'hooks/useAuth';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Slider from 'react-slick';
-import { Badge, Button, Modal } from 'reactstrap';
+import { Badge, Button, Modal, Spinner } from 'reactstrap';
 import './MovieDetail.scss';
 
 const settings_actors = {
@@ -31,9 +34,18 @@ const settings_movies = {
     slidesToScroll: 4,
 };
 
-function MovieDetail(props) {
+function MovieDetail() {
     const { movieId } = useParams();
     const history = useHistory();
+    const {
+        user,
+        wishlist,
+        watchedlist,
+        addWishlist,
+        deleteWishlist,
+        addWatchedlist,
+        deleteWatchedlist,
+    } = useAuth();
 
     const [movieInfo, setMovieInfo] = useState(null);
     const [videos, setVideos] = useState(null);
@@ -42,7 +54,7 @@ function MovieDetail(props) {
     const [playingVideo, setPlayingVideo] = useState(null);
 
     const [modal, setModal] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(null);
 
     const toggle = () => setModal(!modal);
 
@@ -55,9 +67,34 @@ function MovieDetail(props) {
         history.push(`/movie/${movieId}`);
     };
 
+    const hanldeAddWishlistClick = () => {
+        if (!user) {
+            history.push('/sign-in');
+        } else {
+            addWishlist(movieInfo);
+        }
+    };
+
+    const hanldeAddWatchedListClick = () => {
+        if (!user) {
+            history.push('/sign-in');
+        } else {
+            addWatchedlist(movieInfo);
+        }
+    };
+
+    const hanldeRemoveWishlistClick = () => {
+        deleteWishlist(movieInfo.id);
+    };
+
+    const hanldeRemoveWatchedListClick = () => {
+        deleteWatchedlist(movieInfo.id);
+    };
+
     useEffect(() => {
         const fetchMovie = async () => {
             try {
+                setLoading(true);
                 const [
                     movieDetail,
                     movieVideo,
@@ -73,7 +110,8 @@ function MovieDetail(props) {
                 setVideos(movieVideo.results);
                 setCasts(movieCredits.cast);
                 setRecommendations(movieRecommendations.results.slice(0, 8));
-                setLoading(true);
+                setLoading(false);
+                window.scrollTo(0, 0);
             } catch (e) {
                 console.log(e);
             }
@@ -84,7 +122,9 @@ function MovieDetail(props) {
 
     return (
         <>
-            {loading ? (
+            {loading || !movieInfo ? (
+                <Spinner />
+            ) : (
                 <div className='movie-info'>
                     <div
                         className='movie-info__backdrop'
@@ -117,17 +157,17 @@ function MovieDetail(props) {
                                             <FontAwesomeIcon icon={faClock} />
                                         </div>
                                         <div>Duration</div>
-                                        <div>{movieInfo.runtime}</div>
+                                        <div>{movieInfo.runtime} minutes</div>
                                         <div>
                                             <FontAwesomeIcon icon={faCalendarAlt} />
                                         </div>
                                         <div>Release</div>
-                                        <div>{movieInfo.release_date}</div>
+                                        <div>{formatDate(movieInfo.release_date)}</div>
                                         <div>
                                             <FontAwesomeIcon icon={faMoneyBillAlt} />
                                         </div>
                                         <div>Budget</div>
-                                        <div>{movieInfo.revenue}</div>
+                                        <div>{formatNumber(movieInfo.revenue)}</div>
                                     </div>
                                     <div className='right'>
                                         <ul className='genres'>
@@ -141,16 +181,41 @@ function MovieDetail(props) {
                                 </div>
                                 <div className='movie-info__des__btn'>
                                     <div className='movie-info__des__btn--wishlist'>
-                                        <Button color='info'>
-                                            <FontAwesomeIcon icon={faListUl} className='mr-1' /> Add
-                                            to Wishlist
-                                        </Button>
+                                        {wishlist &&
+                                        wishlist.some((movie) => movie.id === movieInfo.id) ? (
+                                            <Button
+                                                onClick={hanldeRemoveWishlistClick}
+                                                color='success'
+                                            >
+                                                <FontAwesomeIcon icon={faListUl} className='mr-1' />{' '}
+                                                Remove from Wishlist
+                                            </Button>
+                                        ) : (
+                                            <Button onClick={hanldeAddWishlistClick} color='info'>
+                                                <FontAwesomeIcon icon={faListUl} className='mr-1' />{' '}
+                                                Add to Wishlist
+                                            </Button>
+                                        )}
                                     </div>
                                     <div className='movie-info__des__btn--watched'>
-                                        <Button color='danger'>
-                                            <FontAwesomeIcon icon={faFilm} className='mr-1' />
-                                            Add to Watched
-                                        </Button>
+                                        {watchedlist &&
+                                        watchedlist.some((movie) => movie.id === movieInfo.id) ? (
+                                            <Button
+                                                onClick={hanldeRemoveWatchedListClick}
+                                                color='info'
+                                            >
+                                                <FontAwesomeIcon icon={faFilm} className='mr-1' />{' '}
+                                                Remove from Watched
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                onClick={hanldeAddWatchedListClick}
+                                                color='danger'
+                                            >
+                                                <FontAwesomeIcon icon={faListUl} className='mr-1' />{' '}
+                                                Add to Watched
+                                            </Button>
+                                        )}
                                     </div>
                                 </div>
                                 <div className='movie-info__des__overview'>
@@ -239,8 +304,6 @@ function MovieDetail(props) {
                         )}
                     </Modal>
                 </div>
-            ) : (
-                <div>Loading ...</div>
             )}
         </>
     );

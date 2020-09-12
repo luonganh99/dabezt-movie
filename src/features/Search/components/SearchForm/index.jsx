@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Input, InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
+import './SearchForm.scss';
 
 function SearchForm() {
     const [searchValue, setSearchValue] = useState('');
@@ -27,7 +28,7 @@ function SearchForm() {
     };
 
     return (
-        <div>
+        <div className='search'>
             <InputGroup>
                 <InputGroupAddon addonType='prepend'>
                     <InputGroupText>

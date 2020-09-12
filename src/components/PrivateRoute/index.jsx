@@ -1,11 +1,12 @@
+import { useAuth } from 'hooks/useAuth';
 import React from 'react';
-import { useAuthContext } from 'features/Auth/components/AuthenticationProvider';
 import { Redirect, Route } from 'react-router-dom';
 
 function PrivateRoute({ component: Component, ...rest }) {
-    const { user } = useAuthContext();
+    const { user } = useAuth();
+    const userLocal = JSON.parse(localStorage.getItem('user'));
 
-    if (!user) {
+    if (!user && !userLocal) {
         return <Redirect to='/sign-in' />;
     }
 

@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AuthenticationProvider from 'features/Auth/components/AuthenticationProvider';
+import AuthenticationProvider from 'context/AuthenticationProvider';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';

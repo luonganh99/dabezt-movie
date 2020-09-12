@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Badge } from 'reactstrap';
 import './MovieCard.scss';
+import defaultMovie from 'assets/imgs/default-movie.png';
 
 MovieCard.propTypes = {
     movie: PropTypes.object,
@@ -23,7 +24,14 @@ function MovieCard({ movie, onViewDetailClick }) {
     return (
         <div className='movie-card'>
             <div className='movie-card__main' onClick={handleViewDetailClick}>
-                <img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={original_title} />
+                <img
+                    src={
+                        poster_path
+                            ? `https://image.tmdb.org/t/p/w500/${poster_path}`
+                            : defaultMovie
+                    }
+                    alt={original_title}
+                />
                 <div className='movie-card__overlay'>
                     <div className='movie-card__overlay--title'>{original_title}</div>
                     <div className='movie-card__overlay--vote'>{vote_average}</div>
