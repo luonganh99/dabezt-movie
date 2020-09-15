@@ -26,6 +26,10 @@
 -   Using TDMB API for getting data
 -   Link: https://developers.themoviedb.org/3
 
+## Demo
+
+-   Link: https://dabezt-movie.netlify.app/
+
 ## Screenshot
 
 ![Screenshot from website ](./public/screenshots/1.JPG)
