@@ -1,13 +1,12 @@
-import moviesApi from 'api/tmdbApi/moviesApi';
-import Pagination from 'components/Pagination';
-import MovieCard from 'features/Movies/components/MovieCard';
-import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { Container } from 'reactstrap';
-import { formatType } from 'utils';
-import './MovieFilter.scss';
+import moviesApi from "api/tmdbApi/moviesApi";
+import Pagination from "components/Pagination";
+import MovieCard from "features/Movies/components/MovieCard";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { formatType } from "utils";
+import "./MovieFilter.scss";
 
-function MovieFilter(props) {
+function MovieFilter() {
     const history = useHistory();
     const { movieType, page } = useParams();
     const [movieList, setMovieList] = useState([]);
@@ -35,24 +34,22 @@ function MovieFilter(props) {
     };
 
     return (
-        <div className='movie-filter'>
-            <Container fluid>
-                <div className='movie-filter__title'>{formatType(movieType)}</div>
-                <div className='movie-filter__list'>
-                    {movieList.map((movie) => (
-                        <MovieCard
-                            key={movie.id}
-                            movie={movie}
-                            onViewDetailClick={handleViewDetailClick}
-                        />
-                    ))}
-                </div>
-                <Pagination
-                    totalPages={totalPages}
-                    page={+page}
-                    onPaginationClick={handlePaginationClick}
-                />
-            </Container>
+        <div className="movie-filter">
+            <div className="movie-filter__title">{formatType(movieType)}</div>
+            <div className="movie-filter__list">
+                {movieList.map((movie) => (
+                    <MovieCard
+                        key={movie.id}
+                        movie={movie}
+                        onViewDetailClick={handleViewDetailClick}
+                    />
+                ))}
+            </div>
+            <Pagination
+                totalPages={totalPages}
+                page={+page}
+                onPaginationClick={handlePaginationClick}
+            />
         </div>
     );
 }
